@@ -25,7 +25,7 @@ class TasksController < ApplicationController
     else
       if @task.save
         flash[:success] = 'タスクを作成しました！'
-        redirect_to tasks_path
+        redirect_to task_path(@task.id)
       else
         render :new
       end
