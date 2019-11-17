@@ -1,0 +1,26 @@
+<h1>タスク一覧</h1>
+<p><%= link_to 'タスク新規登録', new_task_path %></p>
+<table style="width: 100%; text-align:center">
+  <tr>
+    <th>ラベル</th>
+    <th>タスク名</th>
+    <th>終了期限</th>
+    <th>優先度</th>
+    <th>ステータス</th>
+    <th>担当</th>
+    <th>編集</th>
+    <th>削除</th>
+  </tr>
+  <% @tasks.each do |task| %>
+    <tr>
+      <td>※後ほど実装</td>
+      <td><%= link_to task.title, task %></td>
+      <td><%= task.limit %></td>
+      <td><%= task.priority %></td>
+      <td><%= task.status %></td>
+      <td>※後ほど実装</td>
+      <td><%= link_to '編集', edit_task_path(task) %></td>
+      <td><%= link_to '削除', task, method: :delete, data: { confirm: '本当に削除してもよろしいですか？' } %></td>
+    </tr>
+  <% end %>
+</table>
