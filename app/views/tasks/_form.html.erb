@@ -1,0 +1,38 @@
+<div class="container">
+  <%= form_with(model: @task, local: true) do |f| %>
+    <% if @task.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= @task.errors.count %>件のエラーがあります。</h2>
+        <ul>
+        <% @task.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="task_label">
+      <%= f.label :label %>　※後ほど実装
+    </div>
+    <div class="task_priority">
+      <%= f.label :priority %>
+      <%= f.text_field :priority %>
+    </div>
+    <div class="task_status">
+      <%= f.label :status %>
+      <%= f.select :status, [["未着手", "未着手"],["着手", "着手"],["完了", "完了"]] %>
+    </div>
+    <div class="task_title">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
+    <div class="task_details">
+      <%= f.label :details %>
+      <%= f.text_area :details %>
+    </div>
+    <div class="task_limit">
+      <%= f.label :limit %>
+      <%= f.date_select :limit, {} %>
+    </div>
+    <%= f.submit %>
+  <% end %>
+</div>
