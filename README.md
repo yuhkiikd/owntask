@@ -1,4 +1,4 @@
-- tasks
+- task
   - id integer
   - user_id integer
   - label_id integer
@@ -8,13 +8,13 @@
   - status string
   - limit date
 
-- users
+- user
   - id integer
   - name string
   - email string
   - password_digest string
 
-- labels
+- label
   - id integer
   - user_id integer
   - type string
