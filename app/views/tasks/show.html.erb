@@ -1,0 +1,21 @@
+<div class="container">
+  <h1>タスク詳細</h1>
+  <table style="width: 100%; text-align:center">
+    <tr>
+      <td>ラベル：後ほど実装</td>
+      <td><%= @task.priority %></td>
+      <td><%= @task.status %></td>
+    </tr>
+    <tr>
+      <td colspan="3"><%= @task.title %></td>
+    </tr>
+    <tr>
+      <td colspan="3"><%= @task.details %></td>
+    </tr>
+    <tr>
+      <td colspan="3"><%= @task.limit %></td>
+    </tr>
+  </table>
+</div>
+<div><%= link_to '編集', edit_task_path %></div>
+<div><%= link_to '戻る', tasks_path %></div>

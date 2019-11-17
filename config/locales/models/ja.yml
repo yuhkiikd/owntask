@@ -1,0 +1,11 @@
+---
+ja:
+  activerecord:
+    attributes:
+      task:
+        title: "タスク名"
+        priority: "優先度"
+        status: "ステータス"
+        details: "タスク詳細"
+        limit: "終了期限"
+        label: "ラベル"
