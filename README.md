@@ -1,20 +1,20 @@
-- task
-  - id integer
-  - user_id integer
-  - label_id integer
-  - title string
-  - details text
-  - priority string
-  - status string
-  - limit date
+Taskモデル
+| id | integer |
+| user_id(FK) | integer |
+| label_id(FK) | integer |
+| title | string |
+| details | text |
+| priority | string |
+| status | string |
+| limit | date |
 
-- user
-  - id integer
-  - name string
-  - email string
-  - password_digest string
+user
+| id | integer |
+| name | string |
+| email | string |
+| password_digest | string |
 
-- label
-  - id integer
-  - user_id integer
-  - type string
+label
+| id | integer |
+| task_id(FK) | integer |
+| type | string |
