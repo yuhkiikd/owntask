@@ -1,20 +1,28 @@
 require 'rails_helper'
 
-RSpec.describe Task, type: :system do
+RSpec.describe 'タスク管理機能', type: :system do
+  before do
+    FactoryBot.create(:task)
+    FactoryBot.create(:second_task)
+  end
+
   describe 'タスク一覧画面' do
     context 'タスクを作成した場合' do
       it '作成済みのタスクが表示されること' do
-        task = FactoryBot.create(:task, 
-                                  title: 'test_task',
-                                  priority: 'test_A',
-                                  details: 'test_details',
-                                  status: '未着手',
-                                  limit: 'Sun, 17 Nov 2019')
         visit tasks_path
         expect(page).to have_content 'test_task'
         expect(page).to have_content 'test_A'
         expect(page).to have_content '未着手'
         expect(page).to have_content '2019-11-17'
+      end
+    end
+
+    context '複数のタスクを作成した場合' do
+      it 'タスクが作成日時の降順にならんでいること' do
+        visit tasks_path
+        task_list = page.all('tr')
+        expect(task_list[1]).to have_content 'test_B'
+        expect(task_list[2]).to have_content 'test_A'
       end
     end
   end
