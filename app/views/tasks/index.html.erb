@@ -1,5 +1,12 @@
 <h1>タスク一覧</h1>
 <p><%= link_to 'タスク新規登録', new_task_path %></p>
+
+<ul>
+  <li><%= link_to "終了期限でソートする", tasks_path(sort_limit_desc: "true") %></li>
+</ul>
+
+<hr>
+
 <table style="width: 100%; text-align:center">
   <tr>
     <th>ラベル</th>
