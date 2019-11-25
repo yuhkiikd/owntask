@@ -1,9 +1,8 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  before_action :set_sort, only: [:sort]
 
   def index
-    @tasks = Task.all.order(created_at: "DESC")
+    @tasks = Task.set_sort(params)
   end
 
   def sort
@@ -66,22 +65,5 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :details, :priority, :status, :limit)
-  end
-
-  def set_sort
-    if params[:sort_limit_desc]
-      @tasks = Task.all.order(limit: "DESC")
-    elsif params[:sort_priority_asc]
-      @tasks = Task.all.order(priority: "ASC")
-    else
-      if params[:title] != "" && params[:status] == ""
-      @tasks = Task.where("title LIKE ?", "%#{ params[:title] }%")
-      elsif params[:title] == "" && params[:status] != ""
-        @tasks = Task.where("status LIKE ?", "%#{ params[:status] }%")
-      elsif params[:title] != "" && params[:status] != ""
-        @tasks = Task.where("status LIKE ?", "%#{ params[:status] }%")
-                    .where("title LIKE ?", "%#{ params[:title] }%")
-      end
-    end
   end
 end
