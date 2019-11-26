@@ -12,7 +12,7 @@ module SearchModule
     def self.set_sort(params)
       if params[:sort_limit_desc]
         desc_limit
-      elsif params[:asc_priority]
+      elsif params[:sort_priority_asc]
         asc_priority
       elsif params[:task].present?
         if params[:task][:title].present? && params[:task][:status].present?

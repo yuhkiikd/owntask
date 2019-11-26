@@ -53,3 +53,5 @@ gem 'better_errors'
 gem 'binding_of_caller'
 
 gem 'rails-i18n', '5.1.3'
+
+gem 'kaminari', '~> 0.17.0'
