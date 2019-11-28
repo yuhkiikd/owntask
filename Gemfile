@@ -12,6 +12,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'jquery-rails'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.8'
