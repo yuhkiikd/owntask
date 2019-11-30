@@ -8,3 +8,19 @@
 .pagination {
   justify-content: center;
 }
+
+a {
+  &:hover {
+    text-decoration: none;
+    color: #01448b;
+  }
+}
+
+header {
+  a {
+    color: #fff;
+    &:hover {
+      color: #aaa;
+    }
+  }
+}
