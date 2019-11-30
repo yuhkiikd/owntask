@@ -6,6 +6,7 @@ RSpec.describe "タスク管理機能", type: :model do
       @blank_title = FactoryBot.build(:task, title: "")
       @blank_details = FactoryBot.build(:task, details: "")
       @blank_priority = FactoryBot.build(:task, priority: "")
+      @blank_limit = FactoryBot.build(:task, limit: "")
       @not_empty_task = FactoryBot.build(:task)
     end
 
@@ -19,6 +20,10 @@ RSpec.describe "タスク管理機能", type: :model do
 
     it 'priorityが空ならバリデーションが通らない' do
       expect(@blank_priority).not_to be_valid
+    end
+
+    it 'limitが空ならバリデーションが通らない' do
+      expect(@blank_limit).to be_valid
     end
 
     it 'title・details・limit・priorityに内容が記載されていればバリデーションが通る' do
@@ -35,11 +40,11 @@ RSpec.describe "タスク管理機能", type: :model do
 
     context 'タイトル検索テスト' do
       it '検索ワード：検索、2件見つかる'do
-        expect(Task.where("title Like ?", "%検索%").count).to eq 2
+        expect(Task.sort_title("検索").count).to eq 2
       end
 
       it '検索ワード：けんさく、1件見つかる'do
-        expect(Task.where("title Like ?", "%けんさく%").count).to eq 1
+        expect(Task.sort_title("けんさく").count).to eq 1
       end
 
       it '検索ワード：テスト、3件見つかる'do
@@ -62,7 +67,7 @@ RSpec.describe "タスク管理機能", type: :model do
         expect(Task.where("status Like ?", "%未着手%").count).to eq 2
       end
 
-      it '検索ワード：完了、1件見つかる'do
+      it '検索ワード：完了、1件見つかる' do
         expect(Task.where("status Like ?", "%完了%").count).to eq 1
       end
     end

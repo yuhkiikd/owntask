@@ -20,7 +20,7 @@ FactoryBot.define do
     details { '検索テスト' }
     priority { 'test_C' }
     status { '未着手' }
-    limit { 'Sun, 30 Nov 2020' }
+    limit { 'Sun, 30 Nov 2020 2020' }
   end
 
   factory :search_task_02, class: Task do
