@@ -7,6 +7,9 @@ RSpec.describe "タスク管理機能", type: :model do
       @blank_details = FactoryBot.build(:task, details: "")
       @blank_priority = FactoryBot.build(:task, priority: "")
       @blank_limit = FactoryBot.build(:task, limit: "")
+      @blank_status = FactoryBot.build(:task, status: "")
+      @error_priority = FactoryBot.build(:task, priority: "AAA")
+      @error_status = FactoryBot.build(:task, status: "BBB")
       @not_empty_task = FactoryBot.build(:task)
     end
 
@@ -20,6 +23,18 @@ RSpec.describe "タスク管理機能", type: :model do
 
     it 'priorityが空ならバリデーションが通らない' do
       expect(@blank_priority).not_to be_valid
+    end
+
+    it 'priorityがAAAならバリデーションが通らない' do
+      expect(@error_priority).not_to be_valid
+    end
+
+    it 'statusが空ならバリデーションが通らない' do
+      expect(@blank_status).not_to be_valid
+    end
+
+    it 'statusがBBBならバリデーションが通らない' do
+      expect(@error_status).not_to be_valid
     end
 
     it 'limitが空ならバリデーションが通らない' do
