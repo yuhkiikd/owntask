@@ -1,8 +1,14 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  PER = 3
 
   def index
-    @tasks = Task.all.order(created_at: "DESC")
+    @tasks = Task.page(params[:page]).per(PER).desc_sort_create_at
+  end
+
+  def sort
+    @tasks = Task.page(params[:page]).per(PER).set_sort(params)
+    render :index
   end
 
   def new
@@ -11,11 +17,6 @@ class TasksController < ApplicationController
     else
       @task = Task.new
     end
-  end
-
-  def confirm
-    @task = Task.new(task_params)
-    render :new if @task.invalid?
   end
 
   def create

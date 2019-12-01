@@ -15,11 +15,11 @@
     </div>
     <div class="task_priority">
       <%= f.label :priority %>
-      <%= f.text_field :priority %>
+      <%= f.select :priority, [["A", "A"],["B", "B"],["C", "C"],["D", "D"],["E", "E"]] %>
     </div>
     <div class="task_status">
       <%= f.label :status %>
-      <%= f.select :status, [["未着手", "未着手"],["着手", "着手"],["完了", "完了"]] %>
+      <%= f.select :status, [["未着手", "未着手"],["着手中", "着手中"],["完了", "完了"]] %>
     </div>
     <div class="task_title">
       <%= f.label :title %>

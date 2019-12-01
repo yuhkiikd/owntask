@@ -12,6 +12,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'jquery-rails'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.8'
@@ -53,3 +54,5 @@ gem 'better_errors'
 gem 'binding_of_caller'
 
 gem 'rails-i18n', '5.1.3'
+
+gem 'kaminari', '~> 0.17.0'
