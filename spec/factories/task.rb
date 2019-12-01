@@ -12,7 +12,7 @@ FactoryBot.define do
     details { 'test_details2' }
     priority { 'test_B' }
     status { '着手中' }
-    limit { 'Sun, 30 Nov 2019' }
+    limit { 'Sun, 30 Nov 2025' }
   end
 
   factory :search_task_01, class: Task do
@@ -20,7 +20,7 @@ FactoryBot.define do
     details { '検索テスト' }
     priority { 'test_C' }
     status { '未着手' }
-    limit { 'Sun, 30 Nov 2020 2020' }
+    limit { 'Sun, 30 Nov 2020' }
   end
 
   factory :search_task_02, class: Task do
@@ -34,8 +34,8 @@ FactoryBot.define do
   factory :search_task_03, class: Task do
     title { 'テストけんさく' }
     details { 'テストけんさく' }
-    priority { 'test_B' }
+    priority { 'test_C' }
     status { '完了' }
-    limit { 'Sun, 30 Nov 2021' }
+    limit { 'Sun, 30 Nov 2022' }
   end
 end

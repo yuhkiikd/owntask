@@ -3,9 +3,9 @@
   <p><%= link_to 'タスク新規登録', new_task_path %></p>
 
   <%= form_with(model: @tasks, url:sort_tasks_path, method: :get, local: true) do |f| %>
-    <%= f.label :title_search, "タイトル検索"%>
-    <%= f.text_field :title, class: 'form_control' %>
-    <%= f.label :status_seach, "ステータス検索"%>
+    <%= f.label :title_search, "タイトル検索" %>
+    <%= f.text_field :title %>
+    <%= f.label :status_search, "ステータス検索" %>
     <%= f.select :status, [["未着手", "未着手"],["着手中", "着手中"],["完了", "完了"]], :include_blank => true %>
     <%= f.submit "検索" %>
   <% end %>
@@ -31,7 +31,7 @@
       </thead>
       <tbody>
         <% @tasks.each do |task| %>
-          <tr>
+          <tr class=".tasks">
             <td>※後ほど実装</td>
             <td><%= link_to task.title, task %></td>
             <td><%= task.limit %></td>

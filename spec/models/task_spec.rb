@@ -23,7 +23,7 @@ RSpec.describe "タスク管理機能", type: :model do
     end
 
     it 'limitが空ならバリデーションが通らない' do
-      expect(@blank_limit).to be_valid
+      expect(@blank_limit).not_to be_valid
     end
 
     it 'title・details・limit・priorityに内容が記載されていればバリデーションが通る' do
@@ -48,27 +48,37 @@ RSpec.describe "タスク管理機能", type: :model do
       end
 
       it '検索ワード：テスト、3件見つかる'do
-        expect(Task.where("title Like ?", "%テスト%").count).to eq 3
+        expect(Task.sort_title("テスト").count).to eq 3
       end
     end
 
     context 'ステータス検索テスト' do
       it '検索ワード：未着手、2件見つかる'do
-        expect(Task.where(status: "未着手").count).to eq 2
+        expect(Task.sort_status("未着手").count).to eq 2
       end
 
       it '検索ワード：完了、1件見つかる'do
-        expect(Task.where("status Like ?", "%完了%").count).to eq 1
+        expect(Task.sort_status("完了").count).to eq 1
       end
     end
 
     context 'タイトル・ステータス検索テスト' do
       it '検索ワード：タイトル：検索、未着手、2件見つかる'do
-        expect(Task.where("status Like ?", "%未着手%").count).to eq 2
+        expect(Task.sort_title_and_status("検索", "未着手").count).to eq 2
       end
 
-      it '検索ワード：完了、1件見つかる' do
-        expect(Task.where("status Like ?", "%完了%").count).to eq 1
+      it '検索ワード：タイトル：けんさく、ステータス：完了、1件見つかる' do
+        expect(Task.sort_title_and_status("けんさく","完了").count).to eq 1
+      end
+    end
+
+    context 'ソートテスト' do
+      it '終了期限（降順）でソートすると2022が最初になる' do
+        expect(Task.desc_limit[0].limit).to eq '2022-11-30'.to_date
+      end
+
+      it '優先順位（高）でソートするとAが最初になる' do
+        expect(Task.asc_priority[0].priority).to eq 'test_A'
       end
     end
   end
