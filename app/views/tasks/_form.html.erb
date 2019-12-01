@@ -15,7 +15,7 @@
     </div>
     <div class="task_priority">
       <%= f.label :priority %>
-      <%= f.text_field :priority %>
+      <%= f.select :priority, [["A", "A"],["B", "B"],["C", "C"],["D", "D"],["E", "E"]] %>
     </div>
     <div class="task_status">
       <%= f.label :status %>

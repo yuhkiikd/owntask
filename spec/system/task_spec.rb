@@ -12,7 +12,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       it '作成済みのタスクが表示されること' do
         visit tasks_path
         expect(page).to have_content 'test_task'
-        expect(page).to have_content 'test_A'
+        expect(page).to have_content 'A'
         expect(page).to have_content '未着手'
         expect(page).to have_content '2019-11-17'
       end
@@ -23,8 +23,8 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit tasks_path
         task_list = page.all('tr')
         expect(task_list[1]).to have_content 'テストけんさく'
-        expect(task_list[2]).to have_content 'test_B'
-        expect(task_list[3]).to have_content 'test_A'
+        expect(task_list[2]).to have_content 'B'
+        expect(task_list[3]).to have_content 'A'
       end
     end
   end
@@ -46,9 +46,9 @@ RSpec.describe 'タスク管理機能', type: :system do
         click_link '優先順位（高）でソートする'
         sleep 2
         task_list = page.all('tr')
-        expect(task_list[1]).to have_content 'test_A'
-        expect(task_list[2]).to have_content 'test_B'
-        expect(task_list[3]).to have_content 'test_C'
+        expect(task_list[1]).to have_content 'A'
+        expect(task_list[2]).to have_content 'B'
+        expect(task_list[3]).to have_content 'C'
       end
 
       it 'タイトルのみの検索結果が出ること' do
@@ -69,7 +69,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         expect(title[2]).to have_content ''
       end
 
-      it 'タイトル・ステータス共に検索して1件だけ結果が出ること' do
+      it 'タイトル・ステータス共に検索して1件' do
         visit tasks_path
         fill_in 'task[title]', with: 'task'
         click_on '検索'
@@ -87,7 +87,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       it 'データが保存されること' do
         visit new_task_path
         fill_in 'タスク名', with: '成約マッチ'
-        fill_in '優先度', with: 'test_Z'
+        select "E", from: "優先度"
         fill_in 'タスク詳細', with: 'test_details'
         find("option[value='未着手']").select_option
         select "未着手", from: "task_status"
@@ -96,7 +96,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         select "30", from: "task_limit_3i"
         click_on '登録する'
         expect(page).to have_content '成約マッチ'
-        expect(page).to have_content 'test_Z'
+        expect(page).to have_content 'E'
         expect(page).to have_content 'test_details'
         expect(page).to have_content '未着手'
         expect(page).to have_content '2020-11-30'
@@ -110,13 +110,13 @@ RSpec.describe 'タスク管理機能', type: :system do
         task = FactoryBot.create(:task, 
                             id: 999,
                             title: '新規既存判定',
-                            priority: 'test_B',
+                            priority: 'B',
                             details: '新規既存データの判定',
                             status: '未着手',
                             limit: 'Sun, 17 Nov 2020')
         visit task_path(999)
         expect(page).to have_content '新規既存判定'
-        expect(page).to have_content 'test_B'
+        expect(page).to have_content 'B'
         expect(page).to have_content '新規既存データの判定'
         expect(page).to have_content '未着手'
         expect(page).to have_content '2020-11-17'

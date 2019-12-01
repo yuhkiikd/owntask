@@ -78,7 +78,7 @@ RSpec.describe "タスク管理機能", type: :model do
       end
 
       it '優先順位（高）でソートするとAが最初になる' do
-        expect(Task.asc_priority[0].priority).to eq 'test_A'
+        expect(Task.asc_priority[0].priority).to eq 'A'
       end
     end
   end
