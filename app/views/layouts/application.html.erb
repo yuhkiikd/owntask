@@ -9,12 +9,12 @@
   </head>
   <body>
   <header>
+    <h1 class="bg-dark text-white py-1"><%= link_to 'Owntask', tasks_path %></h1>
     <% flash.each do |message_type, message| %>
       <div class="alert alert-<%= message_type %>">
         <%= message %>
     </div>
     <% end %>
-    <h1 class="bg-dark text-white py-1"><%= link_to 'Owntask', tasks_path %></h1>
   </header>
     <%= yield %>
   </body>
