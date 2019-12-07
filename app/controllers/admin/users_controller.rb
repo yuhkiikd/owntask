@@ -18,7 +18,7 @@ class Admin::UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
        session[:user_id] = @user.id
-       redirect_to admin_users_path(@user.id)
+       redirect_to admin_user_path(@user.id)
        flash[:info] = "ようこそ#{@user.name}さん"
     else
       render 'new'
