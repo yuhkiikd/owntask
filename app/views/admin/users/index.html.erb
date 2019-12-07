@@ -5,8 +5,8 @@
       <thead class="thead-dark">
         <tr scope="col">
           <th>ユーザーID</th>
-          <th>：</th>
           <th>ユーザー名</th>
+          <th>タスク数</th>
           <th>権限</th>
           <th>削除</th>
         </tr>
@@ -15,9 +15,9 @@
       <% @users.each do |user| %>
         <tr>
           <td><%= user.id %></td>
-          <td>：</td>
           <td><%= user.name %></td>
-          <td></td>
+          <td><%= user.tasks.size %></td>
+          <td><%= link_to '編集', edit_admin_user_path(user) %></td>
           <td><%= link_to '削除',[:admin, user], method: :delete, data: { confirm: 'このアカウントを削除しますか？' } %></td>
         </tr>
       <% end %>
