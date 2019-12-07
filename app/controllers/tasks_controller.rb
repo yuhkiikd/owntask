@@ -4,7 +4,7 @@ class TasksController < ApplicationController
 
   def index
     if logged_in?
-      @tasks = Task.page(params[:page]).per(PER).desc_sort_create_at
+      @tasks = Task.page(params[:page]).per(PER).desc_sort_create_at.where(user_id: current_user.id)
     else
       redirect_to new_session_path
     end
@@ -12,7 +12,7 @@ class TasksController < ApplicationController
 
   def sort
     if logged_in?
-      @tasks = Task.page(params[:page]).per(PER).set_sort(params)
+      @tasks = Task.page(params[:page]).per(PER).set_sort(params).where(user_id: current_user.id)
       render :index
     else
       redirect_to new_session_path
@@ -30,7 +30,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     if params[:back]
       render :new
     else
@@ -75,6 +75,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :details, :priority, :status, :limit)
+    params.require(:task).permit(:title, :details, :priority, :status, :limit, :user_id)
   end
 end

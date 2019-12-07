@@ -7,5 +7,5 @@ class Task < ApplicationRecord
   validates :status, inclusion: { in: %w(未着手 着手中 完了) }, presence: true
   validates :limit, presence: true
 
-  belongs_to :users, foreign_key: "user_id"
+  belongs_to :user, foreign_key: "user_id"
 end

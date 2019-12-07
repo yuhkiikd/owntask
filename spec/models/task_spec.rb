@@ -1,18 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe "タスク管理機能", type: :model do
-  describe 'バリデーションテスト' do
-    before do
-      @blank_title = FactoryBot.build(:task, title: "")
-      @blank_details = FactoryBot.build(:task, details: "")
-      @blank_priority = FactoryBot.build(:task, priority: "")
-      @blank_limit = FactoryBot.build(:task, limit: "")
-      @blank_status = FactoryBot.build(:task, status: "")
-      @error_priority = FactoryBot.build(:task, priority: "AAA")
-      @error_status = FactoryBot.build(:task, status: "BBB")
-      @not_empty_task = FactoryBot.build(:task)
-    end
+  before do
+    FactoryBot.create(:user1)
+    FactoryBot.create(:user2)
+    FactoryBot.create(:user3)
+    FactoryBot.create(:search_task_01)
+    FactoryBot.create(:search_task_02)
+    FactoryBot.create(:search_task_03)
+    @blank_title = FactoryBot.build(:task, title: "")
+    @blank_details = FactoryBot.build(:task, details: "")
+    @blank_priority = FactoryBot.build(:task, priority: "")
+    @blank_limit = FactoryBot.build(:task, limit: "")
+    @blank_status = FactoryBot.build(:task, status: "")
+    @error_priority = FactoryBot.build(:task, priority: "AAA")
+    @error_status = FactoryBot.build(:task, status: "BBB")
+    @not_empty_task = FactoryBot.build(:task)
+  end
 
+  describe 'バリデーションテスト' do
     it "titleが空ならバリデーションが通らない" do
       expect(@blank_title).not_to be_valid
     end
@@ -41,18 +47,12 @@ RSpec.describe "タスク管理機能", type: :model do
       expect(@blank_limit).not_to be_valid
     end
 
-    it 'title・details・limit・priorityに内容が記載されていればバリデーションが通る' do
+    it 'title・details・limit・priority・user_idに内容が記載されていればバリデーションが通る' do
       expect(@not_empty_task).to be_valid
     end
   end
 
   describe 'scopeテスト' do
-    before do
-      FactoryBot.create(:search_task_01)
-      FactoryBot.create(:search_task_02)
-      FactoryBot.create(:search_task_03)
-    end
-
     context 'タイトル検索テスト' do
       it '検索ワード：検索、2件見つかる'do
         expect(Task.sort_title("検索").count).to eq 2

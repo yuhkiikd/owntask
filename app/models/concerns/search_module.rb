@@ -1,6 +1,5 @@
 module SearchModule
   extend ActiveSupport::Concern
-
   included do
     scope :desc_sort_create_at, -> {order(created_at: :desc)}
     scope :desc_limit, -> {order(limit: :desc)}
