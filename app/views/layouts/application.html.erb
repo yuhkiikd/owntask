@@ -19,10 +19,10 @@
   
     <% if logged_in? %>
       <%= current_user.name %>
-      <%= link_to "ユーザーページ", user_path(current_user.id) %>
+      <%= link_to "ユーザーページ", admin_user_path(current_user.id) %>
       <%= link_to "ログアウト", session_path(current_user.id), method: :delete %>
     <% else %>
-      <%= link_to "アカウント新規登録", new_user_path %>
+      <%= link_to "アカウント新規登録", new_admin_user_path %>
       <%= link_to "ログイン", new_session_path %>
     <% end %>
     

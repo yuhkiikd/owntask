@@ -1,0 +1,27 @@
+<h1>管理画面のユーザー一覧</h1>
+<div class="container">
+  <div class="table-responsive">
+    <table class ="table table-sm text-center table-striped">
+      <thead class="thead-dark">
+        <tr scope="col">
+          <th>ユーザーID</th>
+          <th>：</th>
+          <th>ユーザー名</th>
+          <th>権限</th>
+          <th>削除</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td>：</td>
+          <td><%= user.name %></td>
+          <td></td>
+          <td><%= link_to '削除',[:admin, user], method: :delete, data: { confirm: 'このアカウントを削除しますか？' } %></td>
+        </tr>
+      <% end %>
+      <tbody>
+    </table>
+  </div>
+</div>
