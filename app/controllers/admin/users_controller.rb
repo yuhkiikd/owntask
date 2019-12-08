@@ -9,7 +9,9 @@ class Admin::UsersController < ApplicationController
   end
 
   def new
-    if logged_in?
+    if admin_user?
+      @user = User.new
+    elsif logged_in? 
       redirect_to tasks_path
     else
       @user = User.new
