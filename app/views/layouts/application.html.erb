@@ -4,7 +4,7 @@
     <title>OwntaskApp</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body>
@@ -16,7 +16,6 @@
       </div>
     <% end %>
   </header>
-  
     <% if logged_in? %>
       <%= current_user.name %>
       <%= link_to "ユーザーページ", admin_user_path(current_user.id) %>
@@ -28,7 +27,6 @@
       <%= link_to "アカウント新規登録", new_admin_user_path %>
       <%= link_to "ログイン", new_session_path %>
     <% end %>
-    
     <%= yield %>
   </body>
   <footer class="footer mt-auto py-3 bg-dark text-white">

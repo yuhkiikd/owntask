@@ -16,8 +16,10 @@
   <%= f.label :email %>
   <%= f.email_field :email %>
 
-  <%= f.label :admin %>
-  <%= f.select :admin, [["一般", false],["管理者", true]]%>
+  <% if admin_user? %>
+    <%= f.label :admin %>
+    <%= f.select :admin, [["一般", false],["管理者", true]]%>
+  <% end %>
 
   <%= f.label :password %>
   <%= f.password_field :password %>

@@ -1,6 +1,6 @@
 class Admin::UsersController < ApplicationController
   before_action :ensure_current_user, only: [:show]
-  before_action :ensure_admin, only: [:index, :new, :edit, :update, :destroy]
+  before_action :ensure_admin, only: [:index, :edit, :update, :destroy]
   before_action :set_users, only: [:show, :destroy, :edit, :update]
   before_action :before_destroy, only: [:destroy]
 
@@ -9,7 +9,11 @@ class Admin::UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
+    if logged_in?
+      redirect_to tasks_path
+    else
+      @user = User.new
+    end
   end
 
   def create
@@ -17,7 +21,7 @@ class Admin::UsersController < ApplicationController
     if @user.save
        session[:user_id] = @user.id unless current_user
        redirect_to admin_user_path(@user.id)
-       flash[:info] = "ようこそ#{@user.name}さん"
+       flash[:info] = "#{@user.name}さんのアカウントを作成しました"
     else
       render :new
     end
