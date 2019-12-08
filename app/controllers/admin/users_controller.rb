@@ -44,10 +44,10 @@ class Admin::UsersController < ApplicationController
     @user.update(user_params)
     if User.where(admin: :true).count == 0
       @user.update(admin: :true)
-      redirect_to admin_users_path(@user)
+      redirect_to admin_users_path
       flash[:warning] = "ユーザー【 #{@user.name} 】の権限以外を更新しました　※管理者は最低一人必要です"
     elsif User.where(admin: :true).count >= 1
-      redirect_to admin_users_path(@user)
+      redirect_to admin_users_path
       flash[:info] = "ユーザー【 #{@user.name} 】の更新をしました"
     else
       flash[:danger] = "ユーザー情報の更新が出来ませんでした"
