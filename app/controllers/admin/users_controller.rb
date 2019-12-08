@@ -1,10 +1,11 @@
 class Admin::UsersController < ApplicationController
-  before_action :ensure_current_user, only: [:show, :new, :edit]
+  before_action :ensure_current_user, only: [:show]
   before_action :ensure_admin, only: [:index, :new, :edit, :update, :destroy]
   before_action :set_users, only: [:show, :destroy, :edit, :update]
+  before_action :before_destroy, only: [:destroy]
 
   def index
-    @users = User.all.includes(:tasks)
+    @users = User.all.includes(:tasks).order(id: "ASC")
   end
 
   def new
@@ -23,9 +24,14 @@ class Admin::UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
-    flash[:success] = 'アカウントを削除しました'
-    redirect_to admin_users_path
+    if @user == current_user
+      redirect_to admin_users_path
+      flash[:danger] = "自身の削除はできません"
+    else
+      @user.destroy
+      redirect_to admin_users_path
+      flash[:success] = 'アカウントを削除しました'
+    end
   end
 
   def show
@@ -35,12 +41,17 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
+    @user.update(user_params)
+    if User.where(admin: :true).count == 0
+      @user.update(admin: :true)
       redirect_to admin_users_path(@user)
-      flash[:info] = "ユーザー[ #{@user.name} ]を更新しました"
+      flash[:warning] = "ユーザー【 #{@user.name} 】の権限以外を更新しました　※管理者は最低一人必要です"
+    elsif User.where(admin: :true).count >= 1
+      redirect_to admin_users_path(@user)
+      flash[:info] = "ユーザー【 #{@user.name} 】の更新をしました"
     else
+      flash[:danger] = "ユーザー情報の更新が出来ませんでした"
       render :edit
-      flash[:danger] = "ユーザー[ #{@user.name} ]を更新出来ませんでした"
     end
   end
 
@@ -60,7 +71,6 @@ class Admin::UsersController < ApplicationController
       flash[:danger] = "ログインしてください"
     elsif current_user.id != params[:id].to_i
       redirect_to tasks_path
-      flash[:danger] = "ログイださい"
     end
   end
 
@@ -68,6 +78,13 @@ class Admin::UsersController < ApplicationController
     unless current_user.admin?
       redirect_to tasks_path
       flash[:danger] = "管理者権限がありません。"
+    end
+  end
+
+  def before_destroy
+    if User.where(admin: :true).count == 1
+      redirect_to admin_users_path
+      flash[:danger] = "管理者自身は削除できません" 
     end
   end
 end

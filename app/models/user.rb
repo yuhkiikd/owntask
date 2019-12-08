@@ -4,7 +4,16 @@ class User < ApplicationRecord
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: true
   before_validation { email.downcase! }
+  before_destroy :do_not_destroy_last_one_admin
   has_secure_password
   validates :password, presence: true, length: { minimum: 8 }
   has_many :tasks, dependent: :destroy
+
+  private
+
+  def do_not_destroy_last_one_admin
+    if self.admin? && User.where(admin: :true).count == 1
+      throw :abort
+    end
+  end
 end
