@@ -81,7 +81,7 @@ class Admin::UsersController < ApplicationController
   def ensure_admin
     unless current_user.admin?
       redirect_to tasks_path
-      flash[:danger] = "管理者権限がありません。"
+      flash[:danger] = "管理者権限がありません"
     end
   end
 
