@@ -1,6 +1,5 @@
 class Admin::UsersController < ApplicationController
-  before_action :ensure_current_user, only: [:show]
-  before_action :ensure_admin, only: [:index, :edit, :update, :destroy]
+  before_action :ensure_current_user_admin
   before_action :set_users, only: [:show, :destroy, :edit, :update]
   before_action :before_destroy, only: [:destroy]
 
@@ -9,20 +8,14 @@ class Admin::UsersController < ApplicationController
   end
 
   def new
-    if admin_user?
-      @user = User.new
-    elsif logged_in? 
-      redirect_to tasks_path
-    else
-      @user = User.new
-    end
+    @user = User.new
   end
 
   def create
     @user = User.new(user_params)
     if @user.save
        session[:user_id] = @user.id unless current_user
-       redirect_to admin_user_path(@user.id)
+       redirect_to user_path(@user.id)
        flash[:info] = "#{@user.name}さんのアカウントを作成しました"
     else
       render :new
@@ -71,17 +64,11 @@ class Admin::UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :admin, :password, :password_confirmation)
   end
 
-  def ensure_current_user
+  def ensure_current_user_admin
     if logged_in? == false
       redirect_to new_session_path
       flash[:danger] = "ログインしてください"
-    elsif current_user.id != params[:id].to_i
-      redirect_to tasks_path
-    end
-  end
-
-  def ensure_admin
-    unless current_user.admin?
+    elsif current_user.admin? == false
       redirect_to tasks_path
       flash[:danger] = "管理者権限がありません"
     end

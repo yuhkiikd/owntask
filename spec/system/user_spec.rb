@@ -25,8 +25,8 @@ RSpec.describe 'ユーザー登録・ログイン・ログアウト機能' do
 
   describe 'ユーザー登録テスト' do
     context 'ユーザー登録した場合' do
-      it 'ユーザー登録後、自動でログインしてユーザーページに飛ぶ' do
-        visit new_admin_user_path
+      it '自動でログインしてユーザーページに飛ぶ' do
+        visit new_user_path
         fill_in 'Name', with: 'test4'
         fill_in 'Email', with: 'test4@a.com'
         fill_in 'Password', with: 'hogehoge'
@@ -41,7 +41,7 @@ RSpec.describe 'ユーザー登録・ログイン・ログアウト機能' do
 
     context 'メールアドレスの重複登録をしようとした場合' do
       it '登録済みのメールアドレスは登録出来ない' do
-        visit new_admin_user_path
+        visit new_user_path
         fill_in 'Name', with: 'test1'
         fill_in 'Email', with: 'test1@a.com'
         fill_in 'Password', with: 'hogehoge'
@@ -88,12 +88,12 @@ RSpec.describe 'ユーザー登録・ログイン・ログアウト機能' do
 
   describe '複数ユーザーテスト' do
     before do
-      login_admin
+      login
     end
 
     context 'ログイン後、別ユーザー詳細ページに飛んだ場合' do
       it 'indexページへリダイレクトされる' do
-        visit admin_user_path(13)
+        visit user_path(13)
         expect(page).to have_content 'タスク一覧'
       end
     end
@@ -157,6 +157,9 @@ RSpec.describe 'ユーザー登録・ログイン・ログアウト機能' do
     context '一般権限でログインした場合' do
       it 'ユーザー管理画面には遷移できず、エラーメッセージが出る' do
         visit admin_users_path
+        expect(page).to have_content '管理者権限がありません'
+        expect(page).to have_content 'タスク一覧'
+        visit edit_admin_user_path(20)
         expect(page).to have_content '管理者権限がありません'
         expect(page).to have_content 'タスク一覧'
       end
