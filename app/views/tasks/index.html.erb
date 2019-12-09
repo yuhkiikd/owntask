@@ -3,16 +3,16 @@
   <p><%= link_to 'タスク新規登録', new_task_path %></p>
 
   <%= form_with(model: @tasks, url:sort_tasks_path, method: :get, local: true) do |f| %>
-    <%= f.label :title_search, "タイトル検索" %>
+    <%= f.label t('.title_search') %>
     <%= f.text_field :title %>
-    <%= f.label :status_search, "ステータス検索" %>
+    <%= f.label t('.status_search') %>
     <%= f.select :status, [["未着手", "未着手"],["着手中", "着手中"],["完了", "完了"]], :include_blank => true %>
     <%= f.submit "検索" %>
   <% end %>
 
   <ul class="list-group list-group-horizontal text-center">
-    <li class="list-group-item flex-fill" style="border:none;"><%= link_to "終了期限（降順）でソートする", sort_tasks_path(sort_limit_desc: "true") %></li>
-    <li class="list-group-item flex-fill" style="border:none;"><%= link_to "優先順位（高）でソートする", sort_tasks_path(sort_priority_asc: "true") %></li>
+    <li class="list-group-item flex-fill" style="border:none;"><%= link_to t('.tasks_limit_desc'), sort_tasks_path(sort_limit_desc: "true") %></li>
+    <li class="list-group-item flex-fill" style="border:none;"><%= link_to t('.tasks_priority_asc'), sort_tasks_path(sort_priority_asc: "true") %></li>
   </ul>
 
   <div class="table-responsive">
@@ -39,7 +39,7 @@
             <td><%= task.status %></td>
             <td>※後ほど実装</td>
             <td><%= link_to '編集', edit_task_path(task) %></td>
-            <td><%= link_to '削除', task, method: :delete, data: { confirm: '本当に削除してもよろしいですか？' } %></td>
+            <td><%= link_to '削除', task, method: :delete, data: { confirm: t('.delete_confirm') } %></td>
           </tr>
         <% end %>
       <tbody>

@@ -15,21 +15,16 @@ class Admin::UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
        redirect_to tasks_path
-       flash[:info] = "#{@user.name}さんのアカウントを作成しました"
+       flash[:info] = t('.info')
     else
       render :new
     end
   end
 
   def destroy
-    if @user == current_user
-      redirect_to admin_users_path
-      flash[:danger] = "自身の削除はできません"
-    else
-      @user.destroy
-      redirect_to admin_users_path
-      flash[:success] = 'アカウントを削除しました'
-    end
+    @user.destroy
+    redirect_to admin_users_path
+    flash[:success] = 'アカウントを削除しました'
   end
 
   def show
@@ -55,14 +50,6 @@ class Admin::UsersController < ApplicationController
 
   private
 
-  def set_users
-    @user = User.find(params[:id])
-  end
-
-  def user_params
-    params.require(:user).permit(:name, :email, :admin, :password, :password_confirmation)
-  end
-
   def ensure_current_user_admin
     if logged_in? == false
       redirect_to new_session_path
@@ -74,7 +61,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def before_destroy
-    if User.where(admin: :true).count == 1
+    if User.where(admin: :true).count == 1 && @user == current_user
       redirect_to admin_users_path
       flash[:danger] = "管理者自身は削除できません" 
     end
