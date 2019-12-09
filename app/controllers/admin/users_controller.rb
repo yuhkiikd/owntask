@@ -14,8 +14,7 @@ class Admin::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-       session[:user_id] = @user.id unless current_user
-       redirect_to user_path(@user.id)
+       redirect_to tasks_path
        flash[:info] = "#{@user.name}さんのアカウントを作成しました"
     else
       render :new
