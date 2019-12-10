@@ -1,26 +1,36 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  PER = 3
+  PER = 10
 
   def index
-    @tasks = Task.page(params[:page]).per(PER).desc_sort_create_at
+    if logged_in?
+      @tasks = Task.page(params[:page]).per(PER).desc_sort_create_at.where(user_id: current_user.id)
+    else
+      redirect_to new_session_path
+    end
   end
 
   def sort
-    @tasks = Task.page(params[:page]).per(PER).set_sort(params)
-    render :index
+    if logged_in?
+      @tasks = Task.page(params[:page]).per(PER).set_sort(params).where(user_id: current_user.id)
+      render :index
+    else
+      redirect_to new_session_path
+    end
   end
 
   def new
-    if params[:back]
+    if logged_in? && params[:back]
       @task = Task.new(task_params)
-    else
+    elsif logged_in?
       @task = Task.new
+    else
+      redirect_to new_session_path
     end
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     if params[:back]
       render :new
     else
@@ -57,10 +67,14 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = Task.find(params[:id])
+    if logged_in?
+      @task = Task.find(params[:id])
+    else
+      redirect_to new_session_path
+    end
   end
 
   def task_params
-    params.require(:task).permit(:title, :details, :priority, :status, :limit)
+    params.require(:task).permit(:title, :details, :priority, :status, :limit, :user_id)
   end
 end

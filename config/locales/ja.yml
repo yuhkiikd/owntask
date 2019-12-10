@@ -1,5 +1,7 @@
 ---
 ja:
+  flash:
+    created_account: '%{@user.name}さんのアカウントを作成しました'
   activerecord:
     errors:
       messages:

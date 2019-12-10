@@ -2,9 +2,17 @@ require 'rails_helper'
 
 RSpec.describe 'タスク管理機能', type: :system do
   before do
+    FactoryBot.create(:user1)
+    FactoryBot.create(:user2)
+    FactoryBot.create(:user3)
     FactoryBot.create(:task)
     FactoryBot.create(:second_task)
     FactoryBot.create(:search_task_03)
+
+    visit new_session_path
+    fill_in 'Email', with: 'test1@a.com'
+    fill_in 'Password', with: 'hogehoge'
+    click_on 'ログインする'
   end
 
   describe 'タスク一覧画面' do
@@ -22,9 +30,18 @@ RSpec.describe 'タスク管理機能', type: :system do
       it 'タスクが作成日時の降順にならんでいること' do
         visit tasks_path
         task_list = page.all('tr')
-        expect(task_list[1]).to have_content 'テストけんさく'
-        expect(task_list[2]).to have_content 'B'
-        expect(task_list[3]).to have_content 'A'
+        expect(task_list[1]).to have_content 'B'
+        expect(task_list[2]).to have_content 'A'
+      end
+    end
+
+    context '複数ユーザーがタスクを作成した場合' do
+      it '自分のタスクのみ表示されること' do
+        visit tasks_path
+        task_list = page.all('tr')
+        expect(task_list[1]).to have_content '2025-11-30'
+        expect(task_list[2]).to have_content '2019-11-17'
+        expect(page).not_to have_content '2020-11-30'
       end
     end
   end
@@ -37,8 +54,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         sleep 2
         task_list = page.all('tr')
         expect(task_list[1]).to have_content '2025-11-30'
-        expect(task_list[2]).to have_content '2022-11-30'
-        expect(task_list[3]).to have_content '2019-11-17'
+        expect(task_list[2]).to have_content '2019-11-17'
       end
 
       it 'タスクが終了期限の降順にソートできること' do
@@ -48,7 +64,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         task_list = page.all('tr')
         expect(task_list[1]).to have_content 'A'
         expect(task_list[2]).to have_content 'B'
-        expect(task_list[3]).to have_content 'C'
+        expect(task_list[3]).not_to have_content 'C'
       end
 
       it 'タイトルのみの検索結果が出ること' do

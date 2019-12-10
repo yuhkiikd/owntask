@@ -1,0 +1,9 @@
+---
+ja:
+  tasks:
+    index:
+      title_search: "タイトル検索"
+      status_search: "ステータス検索"
+      tasks_limit_desc: "終了期限（降順）でソートする"
+      tasks_priority_asc: "優先順位（高）でソートする"
+      delete_confirm: '本当に削除してもよろしいですか？'
