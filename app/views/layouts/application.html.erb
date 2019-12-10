@@ -19,7 +19,7 @@
     <% if logged_in? %>
       <%= current_user.name %>
       <%= link_to t('.user_page'), user_path(current_user.id) %>：
-      <% if admin_user? %>
+      <% if current_user.admin? %>
         <%= link_to t('.user_manage'), admin_users_path %>：
         <%= link_to t('.new_account'), new_admin_user_path %>：
       <% end %>
