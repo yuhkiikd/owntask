@@ -8,6 +8,9 @@ class Task < ApplicationRecord
   validates :limit, presence: true
 
   belongs_to :user, foreign_key: "user_id"
-  has_many :labels, dependent: :destroy
-  has_many :labels_users, through: :labels, source: :user
+
+  has_many :labellings, dependent: :destroy, foreign_key: 'task_id'
+  has_many :labelling_labels, through: :labellings, source: :label
+
+  accepts_nested_attributes_for :labellings
 end
