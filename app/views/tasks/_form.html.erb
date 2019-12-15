@@ -10,9 +10,6 @@
         </ul>
       </div>
     <% end %>
-    <div class="task_label">
-      <%= f.label :label %>　※後ほど実装
-    </div>
     <div class="task_priority">
       <%= f.label :priority %>
       <%= f.select :priority, [["A", "A"],["B", "B"],["C", "C"],["D", "D"],["E", "E"]] %>
@@ -32,6 +29,12 @@
     <div class="task_limit">
       <%= f.label :limit %>
       <%= f.date_select :limit, {} %>
+    </div>
+    <div class="task_label">
+      <% label_list.each do |label| %>
+        <%= f.check_box :label_ids, { multiple: true, checked: label[:checked], disabled: label[:disabled], include_hidden: false}, label[:id] %>
+        <label><%= label.label_type %></label>
+      <% end %>
     </div>
     <%= f.submit %>
   <% end %>

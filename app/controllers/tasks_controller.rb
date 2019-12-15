@@ -31,6 +31,7 @@ class TasksController < ApplicationController
 
   def create
     @task = current_user.tasks.build(task_params)
+    @task.user_id = current_user.id
     if params[:back]
       render :new
     else
@@ -69,12 +70,13 @@ class TasksController < ApplicationController
   def set_task
     if logged_in?
       @task = Task.find(params[:id])
+      @labels = Label.where("user_id is null or user_id = ?", current_user.id).order(created_at: "DESC")
     else
       redirect_to new_session_path
     end
   end
 
   def task_params
-    params.require(:task).permit(:title, :details, :priority, :status, :limit, :user_id)
+    params.require(:task).permit(:title, :details, :priority, :status, :limit, :user_id, label_ids: [] )
   end
 end

@@ -1,6 +1,9 @@
 <div class="container-lg">
   <h1>タスク一覧</h1>
-  <p><%= link_to 'タスク新規登録', new_task_path %></p>
+  <p>
+    <span><%= link_to 'タスク新規登録', new_task_path %></span>
+    <span><%= link_to 'ラベル新規登録', new_label_path %></span>
+  </p>
 
   <%= form_with(model: @tasks, url:sort_tasks_path, method: :get, local: true) do |f| %>
     <%= f.label t('.title_search') %>
