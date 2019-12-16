@@ -12,7 +12,7 @@ class TasksController < ApplicationController
 
   def sort
     if logged_in?
-      @tasks = Task.page(params[:page]).per(PER).set_sort(params).where(user_id: current_user.id)
+      @tasks = Task.joins(:labels).page(params[:page]).per(PER).set_sort(params).where(user_id: current_user.id).group(:id)
       render :index
     else
       redirect_to new_session_path

@@ -10,6 +10,8 @@
     <%= f.text_field :title %>
     <%= f.label t('.status_search') %>
     <%= f.select :status, [["未着手", "未着手"],["着手中", "着手中"],["完了", "完了"]], :include_blank => true %>
+    <%= f.label t('.label_search') %>
+    <%= f.collection_select :label_id, label_list, :id, :label_type, include_blank: true %>
     <%= f.submit "検索" %>
   <% end %>
 
@@ -44,7 +46,7 @@
             <td class="align-middle"><%= task.limit %></td>
             <td class="align-middle"><%= task.priority %></td>
             <td class="align-middle"><%= task.status %></td>
-            <td class="align-middle">※後ほど実装</td>
+            <td class="align-middle"><%= task.user.name %></td>
             <td class="align-middle"><%= link_to '編集', edit_task_path(task) %></td>
             <td class="align-middle"><%= link_to '削除', task, method: :delete, data: { confirm: t('.delete_confirm') } %></td>
           </tr>

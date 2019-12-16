@@ -6,6 +6,7 @@ module SearchModule
     scope :asc_priority, -> {order(priority: :asc)}
     scope :sort_title, -> (title){where('title LIKE ?', "%#{ title }%")}
     scope :sort_status, -> (status){where('status LIKE ?', "%#{ status }%")}
+    scope :sort_label, -> (label_id){where(labels: {id: label_id})}
     scope :sort_title_and_status, -> (title,status){sort_title(title).sort_status(status)}
 
     def self.set_sort(params)
@@ -14,7 +15,9 @@ module SearchModule
       elsif params[:sort_priority_asc]
         asc_priority
       elsif params[:task].present?
-        if params[:task][:title].present? && params[:task][:status].present?
+        if params[:task][:label_id].present?
+          sort_label(params[:task][:label_id])
+        elsif params[:task][:title].present? && params[:task][:status].present?
           sort_title_and_status(params[:task][:title],params[:task][:status])
         elsif params[:task][:status].present?
           sort_status(params[:task][:status])
