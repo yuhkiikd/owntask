@@ -8,6 +8,7 @@ module SearchModule
     scope :sort_status, -> (status){where('status LIKE ?', "%#{ status }%")}
     scope :sort_label, -> (label_id){where(labels: {id: label_id})}
     scope :sort_title_and_status, -> (title,status){sort_title(title).sort_status(status)}
+    scope :sort_all, -> (title,status,label_id){sort_title(title).sort_status(status).sort_label(label_id)}
 
     def self.set_sort(params)
       if params[:sort_limit_desc]
@@ -15,14 +16,16 @@ module SearchModule
       elsif params[:sort_priority_asc]
         asc_priority
       elsif params[:task].present?
-        if params[:task][:label_id].present?
-          sort_label(params[:task][:label_id])
+        if params[:task][:title].present? && params[:task][:status].present? && params[:task][:label_id].present?
+          sort_all(params[:task][:title],params[:task][:status],params[:task][:label_id])
         elsif params[:task][:title].present? && params[:task][:status].present?
-          sort_title_and_status(params[:task][:title],params[:task][:status])
+            sort_title_and_status(params[:task][:title],params[:task][:status])
         elsif params[:task][:status].present?
           sort_status(params[:task][:status])
         elsif params[:task][:title].present?
           sort_title(params[:task][:title])
+        elsif params[:task][:label_id].present?
+          sort_label(params[:task][:label_id])
         else
           desc_sort_create_at
         end
