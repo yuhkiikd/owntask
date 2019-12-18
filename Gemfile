@@ -32,7 +32,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
   gem 'spring-commands-rspec'
-  gem 'faker', '>= 2.6.0'
   gem 'database_cleaner'
   gem 'launchy'
   gem 'selenium-webdriver'
@@ -56,3 +55,4 @@ gem 'binding_of_caller'
 gem 'rails-i18n', '5.1.3'
 
 gem 'kaminari', '~> 0.17.0'
+gem 'faker', '>= 2.6.0'
