@@ -4,7 +4,7 @@ class TasksController < ApplicationController
 
   def index
     if logged_in?
-      @tasks = Task.page(params[:page]).per(PER).desc_sort_create_at.where(user_id: current_user.id)
+      @tasks = Task.includes(:labels).references(:labels).page(params[:page]).per(PER).where(user_id: current_user.id).desc_sort_create_at
     else
       redirect_to new_session_path
     end
@@ -12,7 +12,7 @@ class TasksController < ApplicationController
 
   def sort
     if logged_in?
-      @tasks = Task.joins(:labels).page(params[:page]).per(PER).set_sort(params).where(user_id: current_user.id).group(:id)
+      @tasks = Task.includes(:labels).references(:labels).page(params[:page]).per(PER).set_sort(params).where(user_id: current_user.id)
       render :index
     else
       redirect_to new_session_path
