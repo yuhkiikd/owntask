@@ -4,7 +4,7 @@ class TasksController < ApplicationController
 
   def index
     if logged_in?
-      @tasks = Task.includes(:labels).references(:labels).page(params[:page]).per(PER).where(user_id: current_user.id).desc_sort_create_at
+      @tasks = Task.page(params[:page]).per(PER).where(user_id: current_user.id).desc_sort_create_at
     else
       redirect_to new_session_path
     end
