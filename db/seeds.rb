@@ -55,4 +55,13 @@ if Rails.env == "development"
     Labelling.create!(task_id:"#{i + 10}", label_id:2)
     Labelling.create!(task_id:"#{i + 20}", label_id:3)
   end
-end 
+
+elsif Rails.env == "production"
+  1.times do |i|
+    User.create!(name: "admin", email: "admin@hoge.com", password: "hogehoge", admin: true)
+  end
+
+  10.times do |i|
+    User.create!(name: "hoge#{i + 1}", email: "hoge#{i + 1}@hoge.com", password: "hogehoge")
+  end
+end
