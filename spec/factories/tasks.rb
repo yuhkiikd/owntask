@@ -17,6 +17,15 @@ FactoryBot.define do
     user_id { 10 }
   end
 
+  factory :third_task, class: Task do
+    title { 'test_task2' }
+    details { 'test_details2' }
+    priority { 'B' }
+    status { '着手中' }
+    limit { 'Sun, 30 Nov 2025' }
+    user_id { 20 }
+  end
+
   factory :search_task_01, class: Task do
     title { '検索テスト' }
     details { '検索テスト' }

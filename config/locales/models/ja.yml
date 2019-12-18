@@ -10,3 +10,5 @@ ja:
         limit: "終了期限"
         label: "ラベル"
         Labellings: "ラベル"
+      label:
+        label_type: ラベル名

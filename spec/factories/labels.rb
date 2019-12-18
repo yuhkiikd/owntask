@@ -10,4 +10,10 @@ FactoryBot.define do
     label_type { 'リカバリー' }
     user_id { 10 }
   end
+
+  factory :label03, class: Label do
+    id { 3 }
+    label_type { '修正' }
+    user_id { 20 }
+  end
 end
