@@ -23,6 +23,7 @@
         <%= link_to t('.user_manage'), admin_users_path %>：
         <%= link_to t('.new_account'), new_admin_user_path %>：
       <% end %>
+      <%= link_to t('.label_list'), labels_path %>：
       <%= link_to t('.logged_out'), session_path(current_user.id), method: :delete %>
     <% else %>
       <%= link_to t('.new_account'), new_user_path %>：

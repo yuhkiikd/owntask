@@ -3,20 +3,19 @@ require 'rails_helper'
 RSpec.describe 'ユーザー登録・ログイン・ログアウト機能' do
   before do
     FactoryBot.create(:user1)
-    FactoryBot.create(:user2, admin: true)
-    FactoryBot.create(:user3)
+    FactoryBot.create(:user2)
     FactoryBot.create(:task, user_id: 10)
     FactoryBot.create(:second_task, user_id: 20)
   end
 
-  def login
+  def login_admin
     visit new_session_path
     fill_in 'Email', with: 'test1@a.com'
     fill_in 'Password', with: 'hogehoge'
     click_on 'ログインする'
   end
 
-  def login_admin
+  def login
     visit new_session_path
     fill_in 'Email', with: 'test2@a.com'
     fill_in 'Password', with: 'hogehoge'
@@ -60,7 +59,7 @@ RSpec.describe 'ユーザー登録・ログイン・ログアウト機能' do
     context 'ログイン後、ログアウトした場合' do
       it '自動でユーザーページへ飛び、ログイン成功のメッセージが出る' do
         expect(page).to have_content 'ログインしました'
-        expect(page).to have_content 'test2@a.com'
+        expect(page).to have_content 'test1@a.com'
       end
 
       it 'ログアウトしましたと表示される' do
@@ -105,6 +104,13 @@ RSpec.describe 'ユーザー登録・ログイン・ログアウト機能' do
     end
 
     context '管理者権限でログインした場合' do
+      it '管理者自身のアカウント削除は出来ない' do
+        visit admin_users_path
+        page.all('td')[4].click
+        page.driver.browser.switch_to.alert.accept
+        expect(page).to have_content "管理者自身は削除できません"
+      end
+      
       it 'ユーザー管理画面に遷移できる' do
         click_on "ユーザー管理"
         expect(page).to have_content "管理画面のユーザー一覧"
@@ -118,33 +124,26 @@ RSpec.describe 'ユーザー登録・ログイン・ログアウト機能' do
         click_on "更新する"
         expect(page).to have_content "ユーザー【 test1 】の更新をしました"
       end
-
-      it '管理者自身のアカウント削除は出来ない' do
-        visit admin_users_path
-        page.all('td')[9].click
-        page.driver.browser.switch_to.alert.accept
-        expect(page).to have_content "管理者自身は削除できません"
-      end
     end
 
     context '管理者が一人しかいない状態で権限の変更をした場合' do
       it '権限の変更はできない' do
-        visit edit_admin_user_path(20)
+        visit edit_admin_user_path(10)
         select "一般", from: 'user[admin]'
         fill_in 'user[password]', with: "hogehoge"
         fill_in 'user[password_confirmation]', with: "hogehoge"
         click_on "更新する"
-        visit admin_user_path(20)
+        visit admin_user_path(10)
         expect(page).to have_content "管理者"
       end
       
       it 'エラーメッセージが出る' do
-        visit edit_admin_user_path(20)
+        visit edit_admin_user_path(10)
         select "一般", from: 'user[admin]'
         fill_in 'user[password]', with: "hogehoge"
         fill_in 'user[password_confirmation]', with: "hogehoge"
         click_on "更新する"
-        expect(page).to have_content "ユーザー【 test2 】の権限以外を更新しました　※管理者は最低一人必要です"
+        expect(page).to have_content "ユーザー【 test1 】の権限以外を更新しました　※管理者は最低一人必要です"
       end
     end
   end
@@ -159,7 +158,7 @@ RSpec.describe 'ユーザー登録・ログイン・ログアウト機能' do
         visit admin_users_path
         expect(page).to have_content '管理者権限がありません'
         expect(page).to have_content 'タスク一覧'
-        visit edit_admin_user_path(20)
+        visit edit_admin_user_path(10)
         expect(page).to have_content '管理者権限がありません'
         expect(page).to have_content 'タスク一覧'
       end

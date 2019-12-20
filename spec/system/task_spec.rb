@@ -5,9 +5,13 @@ RSpec.describe 'タスク管理機能', type: :system do
     FactoryBot.create(:user1)
     FactoryBot.create(:user2)
     FactoryBot.create(:user3)
+    FactoryBot.create(:label01)
+    FactoryBot.create(:label02)
     FactoryBot.create(:task)
     FactoryBot.create(:second_task)
     FactoryBot.create(:search_task_03)
+    FactoryBot.create(:labelling01)
+    FactoryBot.create(:labelling02)
 
     visit new_session_path
     fill_in 'Email', with: 'test1@a.com'
@@ -112,9 +116,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         select "30", from: "task_limit_3i"
         click_on '登録する'
         expect(page).to have_content '成約マッチ'
-        expect(page).to have_content 'E'
         expect(page).to have_content 'test_details'
-        expect(page).to have_content '未着手'
         expect(page).to have_content '2020-11-30'
       end
     end
@@ -132,11 +134,10 @@ RSpec.describe 'タスク管理機能', type: :system do
                             limit: 'Sun, 17 Nov 2020')
         visit task_path(999)
         expect(page).to have_content '新規既存判定'
-        expect(page).to have_content 'B'
         expect(page).to have_content '新規既存データの判定'
-        expect(page).to have_content '未着手'
         expect(page).to have_content '2020-11-17'
       end
     end
   end
 end
+

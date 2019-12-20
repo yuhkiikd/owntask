@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'labels/index'
   get 'sessions/new'
   root 'tasks#index'
   resources :tasks do
@@ -12,5 +13,5 @@ Rails.application.routes.draw do
     resources :users
   end
 
-  resources :labels, only: [:create, :destroy, :show]
+  resources :labels
 end

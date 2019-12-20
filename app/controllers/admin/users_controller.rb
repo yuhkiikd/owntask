@@ -39,12 +39,12 @@ class Admin::UsersController < ApplicationController
       @user.update(admin: :true)
       redirect_to admin_users_path
       flash[:warning] = "ユーザー【 #{@user.name} 】の権限以外を更新しました　※管理者は最低一人必要です"
+    elsif @user.save == false
+      flash[:danger] = "ユーザー情報の更新が出来ませんでした"
+      render :edit
     elsif User.where(admin: :true).count >= 1
       redirect_to admin_users_path
       flash[:info] = "ユーザー【 #{@user.name} 】の更新をしました"
-    else
-      flash[:danger] = "ユーザー情報の更新が出来ませんでした"
-      render :edit
     end
   end
 
@@ -61,7 +61,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def before_destroy
-    if User.where(admin: :true).count == 1 && @user == current_user
+    if @user.admin == true && @user == current_user
       redirect_to admin_users_path
       flash[:danger] = "管理者自身は削除できません" 
     end
