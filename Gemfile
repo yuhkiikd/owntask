@@ -54,5 +54,5 @@ gem 'binding_of_caller'
 
 gem 'rails-i18n', '5.1.3'
 
-gem 'kaminari', '~> 0.17.0'
+gem 'kaminari', '~> 1.2.1'
 gem 'faker', '>= 2.6.0'
